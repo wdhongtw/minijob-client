@@ -7,8 +7,8 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response
 
 from typing import Dict
-from ...models.meta import Meta
 from typing import cast
+from ...models.meta import Meta
 
 
 
