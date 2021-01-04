@@ -1,30 +1,25 @@
-from typing import Any, Dict
-
-from typing import List
-
+from typing import Any, Dict, List
 
 import attr
-
-from ..types import UNSET, Unset
-
-
 
 
 @attr.s(auto_attribs=True)
 class ItemId:
     """ The item ID model. """
+
     item_id: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
-
     def to_dict(self) -> Dict[str, Any]:
-        item_id =  self.item_id
+        item_id = self.item_id
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "item_id": item_id,
-        })
+        field_dict.update(
+            {
+                "item_id": item_id,
+            }
+        )
 
         return field_dict
 

@@ -1,41 +1,32 @@
-from typing import Any, Dict
-
-from typing import List
-
+from typing import Any, Dict, List, cast
 
 import attr
-
-from ..types import UNSET, Unset
-
-from typing import cast, List
-
 
 
 @attr.s(auto_attribs=True)
 class ValidationError:
     """  """
+
     loc: List[str]
     msg: str
     type: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
-
     def to_dict(self) -> Dict[str, Any]:
         loc = self.loc
 
-
-
-
-        msg =  self.msg
-        type =  self.type
+        msg = self.msg
+        type = self.type
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "loc": loc,
-            "msg": msg,
-            "type": type,
-        })
+        field_dict.update(
+            {
+                "loc": loc,
+                "msg": msg,
+                "type": type,
+            }
+        )
 
         return field_dict
 
@@ -43,7 +34,6 @@ class ValidationError:
     def from_dict(src_dict: Dict[str, Any]) -> "ValidationError":
         d = src_dict.copy()
         loc = cast(List[str], d.pop("loc"))
-
 
         msg = d.pop("msg")
 

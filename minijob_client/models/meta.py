@@ -1,31 +1,23 @@
-from typing import Any, Dict
-
-from typing import List
-
+from typing import Any, Dict, List, Union
 
 import attr
 
 from ..types import UNSET, Unset
 
-from typing import Union
-from ..types import UNSET, Unset
-
-
 
 @attr.s(auto_attribs=True)
 class Meta:
     """ Metadata for the server. """
-    version: Union[Unset, str] = '0.1.0'
+
+    version: Union[Unset, str] = "0.1.0"
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
-
     def to_dict(self) -> Dict[str, Any]:
-        version =  self.version
+        version = self.version
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if version is not UNSET:
             field_dict["version"] = version
 

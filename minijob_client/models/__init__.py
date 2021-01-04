@@ -3,5 +3,6 @@
 from .http_validation_error import HTTPValidationError
 from .item import Item
 from .item_id import ItemId
+from .item_meta import ItemMeta
 from .meta import Meta
 from .validation_error import ValidationError

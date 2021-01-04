@@ -1,19 +1,17 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional
 
 import httpx
 
 from ...client import Client
-from ...models.http_validation_error import HTTPValidationError
-from ...models.item import Item
+from ...models.item_meta import ItemMeta
 from ...types import Response
 
 
 def _get_kwargs(
     *,
     client: Client,
-    item_id: str,
 ) -> Dict[str, Any]:
-    url = "{}/items/{item_id}".format(client.base_url, item_id=item_id)
+    url = "{}/items/".format(client.base_url)
 
     headers: Dict[str, Any] = client.get_headers()
 
@@ -25,19 +23,20 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, response: httpx.Response) -> Optional[Union[Item, HTTPValidationError]]:
+def _parse_response(*, response: httpx.Response) -> Optional[List[ItemMeta]]:
     if response.status_code == 200:
-        response_200 = Item.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for response_200_item_data in _response_200:
+            response_200_item = ItemMeta.from_dict(response_200_item_data)
+
+            response_200.append(response_200_item)
 
         return response_200
-    if response.status_code == 422:
-        response_422 = HTTPValidationError.from_dict(response.json())
-
-        return response_422
     return None
 
 
-def _build_response(*, response: httpx.Response) -> Response[Union[Item, HTTPValidationError]]:
+def _build_response(*, response: httpx.Response) -> Response[List[ItemMeta]]:
     return Response(
         status_code=response.status_code,
         content=response.content,
@@ -49,11 +48,9 @@ def _build_response(*, response: httpx.Response) -> Response[Union[Item, HTTPVal
 def sync_detailed(
     *,
     client: Client,
-    item_id: str,
-) -> Response[Union[Item, HTTPValidationError]]:
+) -> Response[List[ItemMeta]]:
     kwargs = _get_kwargs(
         client=client,
-        item_id=item_id,
     )
 
     response = httpx.get(
@@ -66,24 +63,20 @@ def sync_detailed(
 def sync(
     *,
     client: Client,
-    item_id: str,
-) -> Optional[Union[Item, HTTPValidationError]]:
-    """ Retrieve item. """
+) -> Optional[List[ItemMeta]]:
+    """ Get all metadata of items. """
 
     return sync_detailed(
         client=client,
-        item_id=item_id,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: Client,
-    item_id: str,
-) -> Response[Union[Item, HTTPValidationError]]:
+) -> Response[List[ItemMeta]]:
     kwargs = _get_kwargs(
         client=client,
-        item_id=item_id,
     )
 
     async with httpx.AsyncClient() as _client:
@@ -95,13 +88,11 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Client,
-    item_id: str,
-) -> Optional[Union[Item, HTTPValidationError]]:
-    """ Retrieve item. """
+) -> Optional[List[ItemMeta]]:
+    """ Get all metadata of items. """
 
     return (
         await asyncio_detailed(
             client=client,
-            item_id=item_id,
         )
     ).parsed

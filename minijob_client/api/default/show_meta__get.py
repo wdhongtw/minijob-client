@@ -1,32 +1,19 @@
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, Optional
 
 import httpx
-from attr import asdict
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response
-
-from typing import Dict
-from typing import cast
+from ...client import Client
 from ...models.meta import Meta
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     client: Client,
-
 ) -> Dict[str, Any]:
-    url = "{}/".format(
-        client.base_url)
+    url = "{}/".format(client.base_url)
 
     headers: Dict[str, Any] = client.get_headers()
-
-    
-
-    
-
-    
 
     return {
         "url": url,
@@ -56,11 +43,9 @@ def _build_response(*, response: httpx.Response) -> Response[Meta]:
 def sync_detailed(
     *,
     client: Client,
-
 ) -> Response[Meta]:
     kwargs = _get_kwargs(
         client=client,
-
     )
 
     response = httpx.get(
@@ -69,43 +54,40 @@ def sync_detailed(
 
     return _build_response(response=response)
 
+
 def sync(
     *,
     client: Client,
-
 ) -> Optional[Meta]:
     """ Show metadata for the site. """
 
     return sync_detailed(
         client=client,
-
     ).parsed
+
 
 async def asyncio_detailed(
     *,
     client: Client,
-
 ) -> Response[Meta]:
     kwargs = _get_kwargs(
         client=client,
-
     )
 
     async with httpx.AsyncClient() as _client:
-        response = await _client.get(
-            **kwargs
-        )
+        response = await _client.get(**kwargs)
 
     return _build_response(response=response)
+
 
 async def asyncio(
     *,
     client: Client,
-
 ) -> Optional[Meta]:
     """ Show metadata for the site. """
 
-    return (await asyncio_detailed(
-        client=client,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+        )
+    ).parsed

@@ -1,27 +1,17 @@
-from typing import Any, Dict
-
-from typing import List
-
+from typing import Any, Dict, List, Union
 
 import attr
 
-from ..types import UNSET, Unset
-
 from ..models.validation_error import ValidationError
-from typing import Union
-from typing import cast, List
-from typing import Dict
-from typing import cast
 from ..types import UNSET, Unset
-
 
 
 @attr.s(auto_attribs=True)
 class HTTPValidationError:
     """  """
+
     detail: Union[Unset, List[ValidationError]] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
-
 
     def to_dict(self) -> Dict[str, Any]:
         detail: Union[Unset, List[Any]] = UNSET
@@ -32,14 +22,9 @@ class HTTPValidationError:
 
                 detail.append(detail_item)
 
-
-
-
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if detail is not UNSET:
             field_dict["detail"] = detail
 
@@ -50,11 +35,10 @@ class HTTPValidationError:
         d = src_dict.copy()
         detail = []
         _detail = d.pop("detail", UNSET)
-        for detail_item_data in (_detail or []):
+        for detail_item_data in _detail or []:
             detail_item = ValidationError.from_dict(detail_item_data)
 
             detail.append(detail_item)
-
 
         http_validation_error = HTTPValidationError(
             detail=detail,

@@ -4,42 +4,48 @@ import attr
 
 
 @attr.s(auto_attribs=True)
-class Item:
-    """ The item model. """
+class ItemMeta:
+    """ The item metadata model. """
 
-    path: str
-    content: str
+    item_id: str
+    length: int
+    timestamp: int
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        path = self.path
-        content = self.content
+        item_id = self.item_id
+        length = self.length
+        timestamp = self.timestamp
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "path": path,
-                "content": content,
+                "item_id": item_id,
+                "length": length,
+                "timestamp": timestamp,
             }
         )
 
         return field_dict
 
     @staticmethod
-    def from_dict(src_dict: Dict[str, Any]) -> "Item":
+    def from_dict(src_dict: Dict[str, Any]) -> "ItemMeta":
         d = src_dict.copy()
-        path = d.pop("path")
+        item_id = d.pop("item_id")
 
-        content = d.pop("content")
+        length = d.pop("length")
 
-        item = Item(
-            path=path,
-            content=content,
+        timestamp = d.pop("timestamp")
+
+        item_meta = ItemMeta(
+            item_id=item_id,
+            length=length,
+            timestamp=timestamp,
         )
 
-        item.additional_properties = d
-        return item
+        item_meta.additional_properties = d
+        return item_meta
 
     @property
     def additional_keys(self) -> List[str]:
